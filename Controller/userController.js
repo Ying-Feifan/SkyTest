@@ -87,7 +87,7 @@ exports.findUser = async (req, res) => {
         //procurar o usuario
         const data = await user.findOne({ _id: req.query.id });
         if (data.length == 0) return res.status(400).send({ message: 'Usuário inexistente!' });
-        return res.send({usuário: email});
+        return res.send({usuário: data.email});
     }
     catch (err) {
         return res.status(500).send({ message: 'erro no api ' + err });
