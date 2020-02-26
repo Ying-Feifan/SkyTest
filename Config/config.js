@@ -30,5 +30,3 @@ const config = () =>{
 console.log(`Iniciando a API em ambiente ${ env.toUpperCase()}`);
 
 module.exports = config();
-
-//Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
