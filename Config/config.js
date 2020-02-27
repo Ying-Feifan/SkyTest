@@ -1,4 +1,4 @@
-const env = process.env.NODE_ENV || 'dev';
+const env = 'dev';
 
 const config = () =>{
     switch (env){
@@ -6,21 +6,21 @@ const config = () =>{
             return{
                 bd_url:'mongodb+srv://admin:admin@api-hsdbr.mongodb.net/test?retryWrites=true&w=majority',
                 jwt_password:'sky2019',
-                jwt_expires_in: '1d',
+                jwt_expires_in: '1h',
             }
         }
         case 'hml':{
             return{
                 bd_string:'mongodb+srv://admin:admin@api-hsdbr.mongodb.net/test?retryWrites=true&w=majority',
                 jwt_password:'sky2019',
-                jwt_expires_in: '1d',
+                jwt_expires_in: '1h',
             }
         }
         case 'prod':{
             return{
                 bd_string:'mongodb+srv://admin:admin@api-hsdbr.mongodb.net/test?retryWrites=true&w=majority',
                 jwt_password:'sky2019',
-                jwt_expires_in: '1d',
+                jwt_expires_in: '1h',
             }
         }
 

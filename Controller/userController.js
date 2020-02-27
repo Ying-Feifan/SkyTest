@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../Config/config');
 
 //Funçoes Auxiliares
-function createUserToken(userId) {
-    return jwt.sign({ id: userId }, config.jwt_password, { expiresIn: config.jwt_expires_in });
+function createUserToken(email) {
+    return jwt.sign({ email: email }, config.jwt_password, { expiresIn: config.jwt_expires_in });
 }
 //--------------------------------------------------------------------------------------------
 exports.signUp = async (req, res) => {
@@ -22,9 +22,13 @@ exports.signUp = async (req, res) => {
             updateDate: new Date(),
             lastLoginDate: new Date()
         }
+        //criação do token
+        const tokenInformation = {
+            accessToken: createUserToken(email),
+        }
 
         // criação do usuario
-        const data = await user.create({ ...req.body, dateInformation });
+        const data = await user.create({ ...req.body, dateInformation, ...tokenInformation });
 
         // retorno do sucesso
         return res.status(201).send({
@@ -34,7 +38,7 @@ exports.signUp = async (req, res) => {
             data_criacao: data.dateInformation.creationDate,
             data_atualizacao: data.dateInformation.updateDate,
             ultimo_login: data.dateInformation.lastLoginDate,
-            token: createUserToken(data.id)
+            token: data.accessToken
         });
     }
     catch (err) {
@@ -57,13 +61,16 @@ exports.signIn = async (req, res) => {
 
         // alterar ultimo login
         const dateInformation = data.dateInformation;
-        user.updateOne({ email: email }, {
+        await user.updateOne({ email: email }, {
             dateInformation: {
                 creationDate: dateInformation.creationDate,
                 updateDate: dateInformation.updateDate,
                 lastLoginDate: new Date(),
             }
         });
+        // alterar token
+        await user.updateOne({ email: email }, { accessToken: createUserToken(email) });
+
         data = await user.findOne({ email });
 
         // retorno do sucesso
@@ -74,7 +81,7 @@ exports.signIn = async (req, res) => {
             data_criacao: data.dateInformation.creationDate,
             data_atualizacao: data.dateInformation.updateDate,
             ultimo_login: data.dateInformation.lastLoginDate,
-            token: createUserToken(data.id)
+            token: data.accessToken
         });
     }
     catch (err) {
@@ -86,8 +93,20 @@ exports.findUser = async (req, res) => {
     try {
         //procurar o usuario
         const data = await user.findOne({ _id: req.query.id });
-        if (data.length == 0) return res.status(400).send({ message: 'Usuário inexistente!' });
-        return res.send({usuário: email});
+        // verificar se existe o usuario
+        if (data.length == 0) return res.status(404).send({ message: 'Usuário inexistente!' });
+        // verificar se é o msm token
+        if (data.accessToken != req.headers.authorization.replace('Bearer ', '')) {
+            return res.status(401).send({ error: 'Não autorizado' });
+        }
+        // verificar se ja passou 30 min
+        const dt = new Date();
+        dt.setMinutes(dt.getMinutes() - 30);
+        if (data.dateInformation.lastLoginDate.getTime() < dt.getTime()) {
+            return res.status(401).send({ error: 'Sessão inválida' });
+        }
+        // retorno do sucesso
+        return res.send({ usuário: data.email });
     }
     catch (err) {
         return res.status(500).send({ message: 'erro no api ' + err });
