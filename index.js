@@ -1,7 +1,7 @@
 // Express and Init
 const express = require('express');
 const app = express();
-const config = require('./Config/config')
+const config = require('./Config/config');
 
 
 //Banco de dados
@@ -24,8 +24,8 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //Router
-const skyTestRoute = require('./Router/skyRouter').default;
-app.use('/skyTest',skyTestRoute);
+const skyRouter = require('./Router/skyRouter');
+app.use('/skyAPI',skyRouter);
 
 app.listen(3000);
 module.exports = app;
