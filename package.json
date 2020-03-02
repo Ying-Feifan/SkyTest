@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "nodemon ./bin/server.js",
-    "test": "nyc mocha"
+    "test": "mocha"
   },
   "author": "ying feifan",
   "license": "ISC"
