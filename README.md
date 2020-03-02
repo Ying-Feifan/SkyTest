@@ -3,6 +3,16 @@ Crie um aplicativo backend que irá expor uma API RESTful de criação de sing u
 
 
 API routes:
+
+
+POST:
 /sign-up
+
+
+POST:
 /sign-in
+
+
+GET:
 /find-user
+
