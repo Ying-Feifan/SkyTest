@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 //Router
 const skyRouter = require('./Router/skyRouter');
-app.use('/skyAPI',skyRouter);
+app.use('/',skyRouter);
 
 app.listen(3000);
 module.exports = app;
