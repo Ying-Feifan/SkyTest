@@ -37,7 +37,7 @@ describe('POST /sign-in', function () {
       .send(mock)
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200);
+      .expect(200)
     done();
   });
 });
@@ -52,4 +52,3 @@ describe('GET /find-user', function () {
     done();
   });
 });
-

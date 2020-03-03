@@ -74,8 +74,8 @@ exports.signIn = async (req, res) => {
         data = await user.findOne({ email });
 
         // retorno do sucesso
-        return res.send({
-            mensagem: 'Usuário logado com sucesso',
+        return res.status(200).send({
+            message: 'Usuário logado com sucesso',
             id: data._id,
             usuário: data.email,
             data_criacao: data.dateInformation.creationDate,
@@ -106,7 +106,7 @@ exports.findUser = async (req, res) => {
             return res.status(401).send({ error: 'Sessão inválida' });
         }
         // retorno do sucesso
-        return res.send({ usuário: data.email });
+        return res.status(200).send({ usuário: data.email });
     }
     catch (err) {
         return res.status(500).send({ message: 'erro no api ' + err });
