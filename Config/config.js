@@ -11,23 +11,6 @@ const config = () =>{
                 jwt_expires_in: '1h',
             }
         }
-        case 'hml':{
-            return{
-                environment:'hml',
-                bd_string:'mongodb+srv://admin:admin@api-hsdbr.mongodb.net/test?retryWrites=true&w=majority',
-                jwt_password:'sky2019',
-                jwt_expires_in: '1h',
-            }
-        }
-        case 'prod':{
-            return{
-                environment:'prod',
-                bd_string:'mongodb+srv://admin:admin@api-hsdbr.mongodb.net/test?retryWrites=true&w=majority',
-                jwt_password:'sky2019',
-                jwt_expires_in: '1h',
-            }
-        }
-
     }
 }
 

@@ -8,9 +8,8 @@ const auth = (req, res , next)=>{
     // tirar o bearer do token
     const token = token_header.replace('Bearer ', '');
     // verificar o token
-    jwt.verify(token, config.jwt_password ,(err, decoded)=>{
+    jwt.verify(token, config.jwt_password ,(err)=>{
         if(err) return res.status(401).send({ error: 'Não autorizado'});
-        res.locals.auth_data = decoded;
         return next();
     });
 
