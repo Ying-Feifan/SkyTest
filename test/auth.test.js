@@ -5,7 +5,7 @@ const mockRes = require('sinon-express-mock').mockRes;
 const expect  = require('chai').expect;
 
 describe('auth', function () {
-    it('should auth work', function () {
+    it('shouldnt auth work', function () {
         const request = {
             headers: {authorization:'aaaaaaaaaaa'}
         }
